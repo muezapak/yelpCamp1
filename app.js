@@ -16,10 +16,18 @@ const joi=require('joi')
 const { campgroundSchema } = require('./schemas');
 const {reviewSchema}=require('./schemas')
 //const router = express.Router();
-const campgrounds = require('./routes/campgrounds');
-const reviews = require('./routes/reviews');
+const campgroundRoutes = require('./routes/campgrounds');
+const reviewRoutes = require('./routes/reviews');
+const userRoutes=require('./routes/users');
+
 const session =require('express-session')
 const flash=require('connect-flash')
+
+//using passport for authentication
+const passport = require('passport');
+//const passport=require('passport')
+const localStrategy=require('passport-local')
+const User=require('./models/users')
 
 
 
@@ -60,19 +68,35 @@ expires:Date.now()+1000*60*60*24*7,
 maxAge:Date.now()+1000*60*60*24*7
     }
 }
-app.use(session(sessionConfig))
-app.use(flash())
-app.use((req,res,next)=>{
-    //by setting to local we will have access to this in our templates
 
-res.locals.success=req.flash('success')
-res.locals.error=req.flash('error')
-next()
+
+app.use(session(sessionConfig))
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    //console.log(req.session)
+    req.session.returnTo = req.originalUrl
+    //console.log("in app use-------------------------------------   "+ req.session.returnTo)
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
 })
 
+app.on('session', (session) => {
+    console.log('New session created#######################################', session.id);
+  });
 
-app.use('/campgrounds', campgrounds)
-app.use('/campgrounds/:id/reviews', reviews)
+app.use('/', userRoutes);
+app.use('/campgrounds', campgroundRoutes)
+app.use('/campgrounds/:id/reviews', reviewRoutes)
 
 
 app.get('/', (req, res) => {

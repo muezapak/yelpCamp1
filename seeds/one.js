@@ -4,6 +4,7 @@ const cities=require('./cities')
 const {descriptors,places}=require('./seedHelpers')
 
 const Campground=require('../models/campgrounds')
+const User=require('../models/users')
 console.log("in one")
 //lets make a function which takes aray and selects a random element from arrray and return
 function sample(arr){
@@ -27,6 +28,7 @@ const seedDb=async()=>{
         const c=new Campground({
             title:desc,
             location:loc,
+            author:'64e33d1fa6dac640172d3d55',
             image:'https://source.unsplash.com/collection/483251',
             description:   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore praesentium expedita vel ipsa sapiente rerum aut reiciendis quisquam, quas, atque facilis! Cupiditate voluptatibus rerum quia doloribus illum, rem ad at.',
             price:rand
