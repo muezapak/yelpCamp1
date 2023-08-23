@@ -4,9 +4,27 @@ const Review = require('./reviews')
 const User=require('../models/users')
 const Schema=mongoose.Schema;
 
+const imageSchema=new Schema({
+    url:String,
+    filename:String,
+    //image:String,
+
+})
+
+imageSchema.virtual('thumbnail').get(function()
+
+   {
+    return this.url.replace('/upload','/upload/w_200')
+   })
+
+
+   
+
+
 const campgroundSchema=new Schema({
     title:String,
-    image:String,
+    //image:String,
+    images:[imageSchema],
     price:Number,
     description:String,
     location:String,

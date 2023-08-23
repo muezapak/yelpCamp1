@@ -29,7 +29,19 @@ const seedDb=async()=>{
             title:desc,
             location:loc,
             author:'64e33d1fa6dac640172d3d55',
-            image:'https://source.unsplash.com/collection/483251',
+           // image:'https://source.unsplash.com/collection/483251',
+           images:[     {
+            url: 'https://res.cloudinary.com/dladcmxyc/image/upload/v1692720955/YelpCamp/drkbrkklcilqfkmrffjh.jpg',
+            filename: 'YelpCamp/drkbrkklcilqfkmrffjh',
+           
+          },
+          {
+            url: 'https://res.cloudinary.com/dladcmxyc/image/upload/v1692720956/YelpCamp/ratxaeaonghuq9pqi5te.jpg',
+            filename: 'YelpCamp/ratxaeaonghuq9pqi5te',
+          
+          }
+
+        ],
             description:   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore praesentium expedita vel ipsa sapiente rerum aut reiciendis quisquam, quas, atque facilis! Cupiditate voluptatibus rerum quia doloribus illum, rem ad at.',
             price:rand
 
